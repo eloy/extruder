@@ -1,15 +1,5 @@
 defmodule Extruder.Validators do
 
-  defmacro validates_presence_of(field) do
-    quote do
-      f = unquote(field)
-      field_validations = @__extruder__.validations[f] || []
-      field_validations = field_validations ++ [{:presence, []}]
-      validations = @__extruder__.validations ++ [{f, field_validations}]
-      @__extruder__ %{@__extruder__ | validations:  validations}
-    end
-  end
-
   def run(validations, value) do
     case run_validations(validations, value) do
       {value, []} -> {:ok, value}

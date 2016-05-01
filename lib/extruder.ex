@@ -11,7 +11,7 @@ defmodule Extruder do
   defmacro defmodel(block) do
     quote do
       import Extruder.Fields
-      import Extruder.Validators
+      import Extruder.ValidationHelpers
 
       # Parse the fields
       unquote(block)
