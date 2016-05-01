@@ -1,20 +1,29 @@
 # Extruder
 
-**TODO: Add description**
+Extruder let you build and validate structs from any source.
 
 ## Installation
 
 If [available in Hex](https://hex.pm/docs/publish), the package can be installed as:
 
-  1. Add extruder to your list of dependencies in `mix.exs`:
+Add extruder to your list of dependencies in `mix.exs`:
 
-        def deps do
-          [{:extruder, "~> 0.0.1"}]
-        end
+    def deps do
+      [{:extruder, "~> 0.0.1"}]
+    end
 
-  2. Ensure extruder is started before your application:
 
-        def application do
-          [applications: [:extruder]]
-        end
-
+## Usage
+    defmodule TestModel do
+      use Extruder
+  
+      defmodel do
+        field :foo, :int
+        field :bar, :int, default: 1
+        field :bool_def, :boolean
+        field :def_str, :string
+        field :text, :string, default: "foo bar wadus"
+        field :list_def, :list
+        field :map_def, :map, default: %{foo: []}
+      end
+    end
