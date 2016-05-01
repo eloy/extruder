@@ -16,6 +16,17 @@ defmodule Extruder do
 
       # Build the struct
       defstruct struct_def(@fields)
+
+      # add some helpers
+      def extrude(params) do
+        struct = %__MODULE__{}
+        {struct, errors} = Extruder.Builder.sanitize(struct, @fields, params)
+        case errors do
+          [] -> {:ok, struct}
+          errors -> {:error, errors}
+        end
+      end
     end
   end
+
 end

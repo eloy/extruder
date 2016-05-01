@@ -29,4 +29,17 @@ defmodule ExampleSpec do
       expect(t.map_def) |> to(eq(%{}))
     end
   end
+
+  describe "extrude" do
+    it "should initialize a new struct" do
+      {:ok, s} = TestModel.extrude %{"foo" => 2, list_def: [1, 2, 3]}
+      expect(s) |> to(eq(%TestModel{foo: 2, list_def: [1,2,3]}))
+    end
+
+    it "should ignore invalid fields" do
+      {:ok, s} = TestModel.extrude %{"foo" => 2, "invalid" => "ignore me"}
+      expect(s) |> to(eq(%TestModel{foo: 2}))
+    end
+
+  end
 end
