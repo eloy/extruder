@@ -1,7 +1,8 @@
 defmodule Extruder.Fields do
   defmacro field(name, type, opt \\ []) do
     quote do
-      @fields [{unquote(name), unquote(type), unquote(opt)} | @fields]
+      fields = @__extruder__.fields ++ [{unquote(name), unquote(type), unquote(opt)}]
+      @__extruder__ %{@__extruder__ | fields: fields}
     end
   end
 
@@ -13,7 +14,7 @@ defmodule Extruder.Fields do
 
 
   def build_field({name, :int, opt}) do
-    value = opt[:default] || 0
+    value = opt[:default] || nil
     {name, value}
   end
 
