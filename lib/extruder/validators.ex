@@ -74,4 +74,23 @@ defmodule Extruder.Validators do
     end
   end
 
+
+  # Atoms
+  #----------------------------------------------------------------------
+
+  defp run_validation({:cast, :atom}, {value, errors}) when is_atom(value) do
+    {value, errors}
+  end
+
+  defp run_validation({:cast, :atom}, {value, errors}) when is_bitstring(value) do
+    try do
+      value = String.to_existing_atom value
+      {value, errors}
+    rescue
+      e in ArgumentError ->
+        errors = errors ++ [:is_not_an_existing_atom]
+        {value, errors}
+    end
+  end
+
 end

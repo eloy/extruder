@@ -1,4 +1,4 @@
-defmodule ExampleSpec do
+defmodule ExtruderSpec do
   use ESpec
 
   defmodule TestModel do

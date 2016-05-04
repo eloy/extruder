@@ -39,4 +39,15 @@ defmodule Extruder.Fields do
     {name, value}
   end
 
+  def build_field({name, :atom, opt}) do
+    value = opt[:default] || nil
+    {name, value}
+  end
+
+
+  def build_field({name, unknown, _opt}) do
+    raise ":#{unknown} is not a valid field type for #{name}"
+  end
+
+
 end
