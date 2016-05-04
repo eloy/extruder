@@ -10,8 +10,8 @@ defmodule Extruder do
 
   defmacro defmodel(block) do
     quote do
-      import Extruder.Fields
       import Extruder.ValidationHelpers
+      import Extruder.Fields
 
       # Parse the fields
       unquote(block)

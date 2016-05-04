@@ -3,6 +3,7 @@ defmodule Extruder.Fields do
     quote do
       fields = @__extruder__.fields ++ [{unquote(name), unquote(type), unquote(opt)}]
       @__extruder__ %{@__extruder__ | fields: fields}
+      validates(unquote(name), :cast, unquote(type))
     end
   end
 

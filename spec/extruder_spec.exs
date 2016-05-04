@@ -47,6 +47,7 @@ defmodule ExampleSpec do
 
     it "should check validations" do
       {:error, s, errors} = TestModel.extrude %{}
+      expect(errors) |> to(eq([foo: [:can_not_be_nil]]))
     end
 
   end
