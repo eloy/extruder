@@ -39,21 +39,23 @@ defmodule Extruder.Fields do
     {name, value}
   end
 
-  def build_field({name, :struct, opt}) do
-    data = opt[:default] || %{}
-    module = opt[:module]
-    value = module.extrude data
-    {name, value}
-  end
-
   def build_field({name, :atom, opt}) do
     value = opt[:default] || nil
     {name, value}
   end
 
+  def build_field({name, :struct, opt}) do
+    value = opt[:default] || nil
+    {name, value}
+  end
+
+  def build_field({name, :structs_list, opt}) do
+    value = opt[:default] || nil
+    {name, value}
+  end
 
   def build_field({name, unknown, _opt}) do
-    raise ":#{unknown} is not a valid field type for the field #{name}"
+    raise ":#{unknown} is not a valid type for the field #{name}"
   end
 
 

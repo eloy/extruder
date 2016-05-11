@@ -116,4 +116,36 @@ defmodule Extruder.Validators do
     {value, errors}
   end
 
+    # Structs List
+  #----------------------------------------------------------------------
+
+  defp run_validation({:cast, :structs_list}, _field_opt, {value, errors}) when is_nil(value) do
+    {nil, errors}
+  end
+
+
+  defp run_validation({:cast, :structs_list}, field_opt, {value, errors}) when is_list(value) do
+    module = field_opt[:module]
+    {structs, neested_errors, _index} = Enum.reduce value, {[], [], 0}, fn(s, {structs, neested_errors, index}) ->
+      case module.extrude s do
+        {:ok, struct} ->
+          structs = structs ++ [struct]
+        {:error, struct, e} ->
+          structs = structs ++ [struct]
+          neested_errors = neested_errors ++ [{index, e}]
+      end
+      {structs, neested_errors, index}
+    end
+    case neested_errors do
+      [] -> {structs, errors}
+      e -> errors = errors ++ e
+    end
+    {structs, errors}
+  end
+
+  defp run_validation({:cast, :structs_list}, _field_opt, {value, errors}) do
+    errors = errors ++ [:is_not_a_list]
+    {value, errors}
+  end
+
 end
