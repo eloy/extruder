@@ -1,18 +1,18 @@
 defmodule Extruder.Validators do
 
-  def run(validations, value) do
-    case run_validations(validations, value) do
+  def run(validations, value, opt) do
+    case run_validations(validations, value, opt) do
       {value, []} -> {:ok, value}
       {value, errors} -> {:error, errors, value}
     end
   end
 
-  defp run_validations(validations, value) do
-    Enum.reduce validations, {value, []}, &run_validation(&1, &2)
+  defp run_validations(validations, value, field_opt) do
+    Enum.reduce validations, {value, []}, &run_validation(&1, field_opt, &2)
   end
 
 
-  defp run_validation({:presence, opt}, {value, errors})  do
+  defp run_validation({:presence, opt}, _field_opt, {value, errors})  do
     case is_nil(value) do
       false -> {value, errors}
       true ->
@@ -25,11 +25,11 @@ defmodule Extruder.Validators do
   # Cast
   #----------------------------------------------------------------------
 
-  defp run_validation({:cast, _type}, {nil, errors})  do
+  defp run_validation({:cast, _type}, _field_opt, {nil, errors})  do
     {nil, errors}
   end
 
-  defp run_validation({:cast, :int}, {value, errors})  do
+  defp run_validation({:cast, :int}, _field_opt, {value, errors})  do
     case is_number(value) do
       true -> {value, errors}
       false ->
@@ -38,7 +38,7 @@ defmodule Extruder.Validators do
     end
   end
 
-  defp run_validation({:cast, :string}, {value, errors})  do
+  defp run_validation({:cast, :string}, _field_opt, {value, errors})  do
     case is_binary(value) do
       true -> {value, errors}
       false ->
@@ -47,7 +47,7 @@ defmodule Extruder.Validators do
     end
   end
 
-  defp run_validation({:cast, :map}, {value, errors})  do
+  defp run_validation({:cast, :map}, _field_opt, {value, errors})  do
     case is_map(value) do
       true -> {value, errors}
       false ->
@@ -56,7 +56,7 @@ defmodule Extruder.Validators do
     end
   end
 
-  defp run_validation({:cast, :list}, {value, errors})  do
+  defp run_validation({:cast, :list}, _field_opt, {value, errors})  do
     case is_list(value) do
       true -> {value, errors}
       false ->
@@ -65,7 +65,7 @@ defmodule Extruder.Validators do
     end
   end
 
-  defp run_validation({:cast, :boolean}, {value, errors})  do
+  defp run_validation({:cast, :boolean}, _field_opt, {value, errors})  do
     case is_boolean(value) do
       true -> {value, errors}
       false ->
@@ -78,19 +78,42 @@ defmodule Extruder.Validators do
   # Atoms
   #----------------------------------------------------------------------
 
-  defp run_validation({:cast, :atom}, {value, errors}) when is_atom(value) do
+  defp run_validation({:cast, :atom}, _field_opt, {value, errors}) when is_atom(value) do
     {value, errors}
   end
 
-  defp run_validation({:cast, :atom}, {value, errors}) when is_bitstring(value) do
+  defp run_validation({:cast, :atom}, _field_opt, {value, errors}) when is_bitstring(value) do
     try do
       value = String.to_existing_atom value
       {value, errors}
     rescue
-      e in ArgumentError ->
+      _e in ArgumentError ->
         errors = errors ++ [:is_not_an_existing_atom]
         {value, errors}
     end
+  end
+
+  # Struct
+  #----------------------------------------------------------------------
+
+  defp run_validation({:cast, :struct}, _field_opt, {value, errors}) when is_nil(value) do
+    {nil, errors}
+  end
+
+
+  defp run_validation({:cast, :struct}, field_opt, {value, errors}) when is_map(value) do
+    module = field_opt[:module]
+    case module.extrude value do
+      {:ok, struct} ->
+        {struct, errors}
+      {:error, struct, field_errors} ->
+        {value, (errors ++ field_errors)}
+    end
+  end
+
+  defp run_validation({:cast, :struct}, _field_opt, {value, errors}) do
+    errors = errors ++ [:is_not_an_struct]
+    {value, errors}
   end
 
 end

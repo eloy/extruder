@@ -11,7 +11,7 @@ defmodule Extruder.Builder do
       # run validations
       validations = model_def.validations[name]
       if validations != nil do
-        case Extruder.Validators.run(validations, Map.fetch!(struct, name)) do
+        case Extruder.Validators.run(validations, Map.fetch!(struct, name), opt) do
           {:ok, ret_value} -> struct = %{struct | name => ret_value}
           {:error, field_errors, _ret_value} -> errors = errors ++ [{name, field_errors}]
         end
