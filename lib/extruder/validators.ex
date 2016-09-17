@@ -116,7 +116,7 @@ defmodule Extruder.Validators do
     {value, errors}
   end
 
-    # Structs List
+  # Structs List
   #----------------------------------------------------------------------
 
   defp run_validation({:cast, :structs_list}, _field_opt, {value, errors}) when is_nil(value) do
@@ -146,6 +146,19 @@ defmodule Extruder.Validators do
   defp run_validation({:cast, :structs_list}, _field_opt, {value, errors}) do
     errors = errors ++ [:is_not_a_list]
     {value, errors}
+  end
+
+
+  # Custom
+  #----------------------------------------------------------------------
+
+
+  defp run_validation({:cast, :custom}, field_opt, {value, errors}) do
+    parse = field_opt[:parse]
+    case parse.(value) do
+      {:ok, value} -> {value, errors}
+      {:error, e} -> {value, errors ++ [e]}
+    end
   end
 
 end

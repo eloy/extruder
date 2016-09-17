@@ -24,8 +24,8 @@ defmodule Extruder.Builder do
   defp get_value(params, name) do
     name_str = Atom.to_string(name)
     cond do
-      Map.has_key?(params, name) -> params[name]
-      Map.has_key?(params, name_str) -> params[name_str]
+      Map.has_key?(params, name) -> Map.fetch! params, name
+      Map.has_key?(params, name_str) -> Map.fetch! params, name_str
       true -> :empty
     end
   end
