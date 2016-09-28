@@ -22,4 +22,11 @@ defmodule Extruder.ValidationHelpers do
     end
   end
 
+
+  defmacro validates_inclussion_of(field, opt) do
+    quote do
+      validates(unquote(field), :inclussion, unquote(opt))
+    end
+  end
+
 end
