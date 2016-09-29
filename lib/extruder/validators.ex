@@ -21,6 +21,13 @@ defmodule Extruder.Validators do
     end
   end
 
+  # Inclussion
+  #----------------------------------------------------------------------
+
+  defp run_validation({:inclussion, [in: permitted]}, _field_opt, {nil, errors})  do
+    {nil, errors}
+  end
+
   defp run_validation({:inclussion, [in: permitted]}, _field_opt, {value, errors})  do
     if value in permitted do
       {value, errors}
