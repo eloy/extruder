@@ -28,6 +28,13 @@ defmodule Extruder do
           errors -> {:error, struct, errors}
         end
       end
+
+      def extrude!(params) do
+        case extrude(params) do
+          {:ok, struct} -> struct
+          {:error, _, errors} -> raise "Error extruding #{inspect(errors)}"
+        end
+      end
     end
   end
 
