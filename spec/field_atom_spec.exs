@@ -19,5 +19,8 @@ defmodule FieldAtomrSpec do
     expect(errors) |> to(eq([foo: [:is_not_an_existing_atom]]))
   end
 
-
+  it "should allow nil" do
+    {:ok, model} = TestModel.extrude %{}
+    expect(model.foo) |> to(eq(nil))
+  end
 end
