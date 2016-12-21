@@ -54,6 +54,11 @@ defmodule Extruder.Fields do
     {name, value}
   end
 
+  def build_field({name, :structs_map, opt}) do
+    value = opt[:default] || nil
+    {name, value}
+  end
+
   def build_field({name, :custom, opt}) do
     value = opt[:default] || nil
     {name, value}

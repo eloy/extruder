@@ -166,6 +166,42 @@ defmodule Extruder.Validators do
   end
 
 
+  # Structs Map
+  #----------------------------------------------------------------------
+
+  defp run_validation({:cast, :structs_map}, _field_opt, {value, errors}) when is_nil(value) do
+    {nil, errors}
+  end
+
+
+  defp run_validation({:cast, :structs_map}, field_opt, {value, errors}) when is_map(value) do
+    module = field_opt[:module]
+    {structs_map, neested_errors} = Enum.reduce value, {%{}, []}, fn({key, s}, {structs_map, neested_errors}) ->
+      case module.extrude s do
+        {:ok, struct} ->
+          structs_map = Map.put structs_map, key, struct
+          {structs_map, neested_errors}
+        {:error, struct, e} ->
+          structs_map = Map.put structs_map, key, struct
+          neested_errors = neested_errors ++ [{key, e}]
+          {structs_map, neested_errors}
+      end
+
+    end
+    case neested_errors do
+      [] -> {structs_map, errors}
+      e ->
+        errors = errors ++ e
+        {structs_map, errors}
+    end
+  end
+
+  defp run_validation({:cast, :structs_map}, _field_opt, {value, errors}) do
+    errors = errors ++ [:is_not_a_map]
+    {value, errors}
+  end
+
+
   # Custom
   #----------------------------------------------------------------------
 
