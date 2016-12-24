@@ -42,18 +42,33 @@ defmodule Extruder.Validators do
   # Cast
   #----------------------------------------------------------------------
 
+  # nil always return nil
   defp run_validation({:cast, _type}, _field_opt, {nil, errors})  do
     {nil, errors}
   end
 
+
+
+  # int
+  #----------------------------------------------------------------------
+
+  defp run_validation({:cast, :int}, _field_opt, {value, errors}) when is_number(value) do
+    {value, errors}
+  end
+
   defp run_validation({:cast, :int}, _field_opt, {value, errors})  do
-    case is_number(value) do
-      true -> {value, errors}
-      false ->
+    case Integer.parse value do
+      {value, _rest} -> {value, errors}
+      :error ->
         errors = errors ++ [:is_not_a_number]
         {value, errors}
     end
   end
+
+
+  # strings
+  #----------------------------------------------------------------------
+
 
   defp run_validation({:cast, :string}, _field_opt, {value, errors})  do
     case is_binary(value) do
