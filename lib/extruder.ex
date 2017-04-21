@@ -35,6 +35,10 @@ defmodule Extruder do
           {:error, _, errors} -> raise "Error extruding #{inspect(errors)}"
         end
       end
+
+      def fields_list do
+        @__extruder__.fields
+      end
     end
   end
 
