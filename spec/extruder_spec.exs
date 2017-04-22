@@ -50,5 +50,10 @@ defmodule ExtruderSpec do
       expect(errors) |> to(eq([foo: [:can_not_be_nil]]))
     end
 
+    it "should accept nil as a valid value" do
+      {:error, s, errors} = TestModel.extrude nil
+      expect(errors) |> to(eq([foo: [:can_not_be_nil]]))
+    end
+
   end
 end
