@@ -65,6 +65,35 @@ defmodule Extruder.Validators do
     end
   end
 
+  # float
+  #----------------------------------------------------------------------
+
+  defp run_validation({:cast, :float}, _field_opt, {value, errors}) when is_number(value) do
+    {value, errors}
+  end
+
+  defp run_validation({:cast, :float}, _field_opt, {value, errors})  do
+    case Float.parse value do
+      {value, _rest} -> {value, errors}
+      :error ->
+        errors = errors ++ [:is_not_a_number]
+        {value, errors}
+    end
+  end
+
+  # UUID
+  #----------------------------------------------------------------------
+
+
+  defp run_validation({:cast, :uuid}, _field_opt, {value, errors})  do
+    case is_binary(value) do
+      true -> {value, errors}
+      false ->
+        errors = errors ++ [:is_not_a_UUID]
+        {value, errors}
+    end
+  end
+
 
   # strings
   #----------------------------------------------------------------------
@@ -79,6 +108,9 @@ defmodule Extruder.Validators do
     end
   end
 
+  # map
+  #----------------------------------------------------------------------
+
   defp run_validation({:cast, :map}, _field_opt, {value, errors})  do
     case is_map(value) do
       true -> {value, errors}
@@ -88,6 +120,9 @@ defmodule Extruder.Validators do
     end
   end
 
+  # list
+  #----------------------------------------------------------------------
+
   defp run_validation({:cast, :list}, _field_opt, {value, errors})  do
     case is_list(value) do
       true -> {value, errors}
@@ -96,6 +131,10 @@ defmodule Extruder.Validators do
         {value, errors}
     end
   end
+
+
+  # boolean
+  #----------------------------------------------------------------------
 
   defp run_validation({:cast, :boolean}, _field_opt, {value, errors})  do
     case is_boolean(value) do

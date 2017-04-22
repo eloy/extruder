@@ -19,6 +19,17 @@ defmodule Extruder.Fields do
     {name, value}
   end
 
+  def build_field({name, :float, opt}) do
+    value = opt[:default] || nil
+    {name, value}
+  end
+
+  def build_field({name, :uuid, opt}) do
+    value = opt[:default] || nil
+    {name, value}
+  end
+
+
   def build_field({name, :string, opt}) do
     value = opt[:default] || nil
     {name, value}
