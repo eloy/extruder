@@ -14,6 +14,22 @@ defmodule Extruder.Fields do
   end
 
 
+
+  def build_field({name, :boolean, opt}) do
+    value = opt[:default] || false
+    {name, value}
+  end
+
+  def build_field({name, :list, opt}) do
+    value = opt[:default] || []
+    {name, value}
+  end
+
+  def build_field({name, :map, opt}) do
+    value = opt[:default] || %{}
+    {name, value}
+  end
+
   def build_field({name, :int, opt}) do
     value = opt[:default] || nil
     {name, value}
@@ -29,24 +45,8 @@ defmodule Extruder.Fields do
     {name, value}
   end
 
-
   def build_field({name, :string, opt}) do
     value = opt[:default] || nil
-    {name, value}
-  end
-
-  def build_field({name, :boolean, opt}) do
-    value = opt[:default] || false
-    {name, value}
-  end
-
-  def build_field({name, :list, opt}) do
-    value = opt[:default] || []
-    {name, value}
-  end
-
-  def build_field({name, :map, opt}) do
-    value = opt[:default] || %{}
     {name, value}
   end
 
@@ -66,6 +66,12 @@ defmodule Extruder.Fields do
   end
 
   def build_field({name, :structs_map, opt}) do
+    value = opt[:default] || nil
+    {name, value}
+  end
+
+
+  def build_field({name, :datetime, opt}) do
     value = opt[:default] || nil
     {name, value}
   end

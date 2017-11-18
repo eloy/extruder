@@ -256,6 +256,23 @@ defmodule Extruder.Validators do
   end
 
 
+  # Datetime
+  #----------------------------------------------------------------------
+
+  defp run_validation({:cast, :datetime}, field_opt, {nil, errors}),  do: {nil, errors}
+  defp run_validation({:cast, :datetime}, field_opt, {"", errors}),  do: {nil, errors}
+
+  defp run_validation({:cast, :datetime}, field_opt, {value, errors}) when is_bitstring(value) do
+    case Timex.parse(value, "{ISO:Extended:Z}") do
+      {:ok, value} -> {value, errors}
+      {:error, e} -> {value, ["Invalid date" | errors]}
+    end
+  end
+
+  defp run_validation({:cast, :datetime}, field_opt, {value, errors}) do
+    {value, errors}
+  end
+
   # Custom
   #----------------------------------------------------------------------
 
