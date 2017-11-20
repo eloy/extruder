@@ -51,6 +51,13 @@ defmodule Extruder.Validators do
 
   # int
   #----------------------------------------------------------------------
+  defp run_validation({:cast, :int}, _field_opt, {nil, errors}) do
+    {nil, errors}
+  end
+
+  defp run_validation({:cast, :int}, _field_opt, {"", errors}) do
+    {nil, errors}
+  end
 
   defp run_validation({:cast, :int}, _field_opt, {value, errors}) when is_number(value) do
     {value, errors}
@@ -67,6 +74,14 @@ defmodule Extruder.Validators do
 
   # float
   #----------------------------------------------------------------------
+
+  defp run_validation({:cast, :float}, _field_opt, {nil, errors}) do
+    {nil, errors}
+  end
+
+  defp run_validation({:cast, :float}, _field_opt, {"", errors}) do
+    {nil, errors}
+  end
 
   defp run_validation({:cast, :float}, _field_opt, {value, errors}) when is_number(value) do
     {value, errors}
