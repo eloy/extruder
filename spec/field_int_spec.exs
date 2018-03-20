@@ -20,6 +20,17 @@ defmodule FieldIntSpec do
   end
 
 
+  it "should accept empty strings as nil" do
+    {:ok, model} = TestModel.extrude %{foo: ""}
+    expect(model.foo) |> to(be_nil)
+  end
+
+  it "should accept nil" do
+    {:ok, model} = TestModel.extrude %{foo: nil}
+    expect(model.foo) |> to(be_nil)
+  end
+
+
   it "should raise errors converting invalid numbers" do
     {:error, s, errors} = TestModel.extrude %{foo: "not a number"}
     expect(errors) |> to(eq([foo: [:is_not_a_number]]))
