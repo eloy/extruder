@@ -142,7 +142,7 @@ defmodule Extruder.Validators do
     case is_list(value) do
       true -> {value, errors}
       false ->
-        errors = errors ++ [:is_not_a_map]
+        errors = errors ++ [:is_not_a_list]
         {value, errors}
     end
   end
