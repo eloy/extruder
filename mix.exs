@@ -5,32 +5,31 @@ defmodule Extruder.Mixfile do
     [app: :extruder,
      version: "0.0.1",
      elixir: "~> 1.2",
+     package: package(),
+     description: "Build elixir structs from untrusted sources",
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
      deps: deps(),
      preferred_cli_env: [espec: :test]]
   end
 
-  # Configuration for the OTP application
-  #
-  # Type "mix help compile.app" for more information
   def application do
     [applications: [:logger, :timex]]
   end
 
-  # Dependencies can be Hex packages:
-  #
-  #   {:mydep, "~> 0.3.0"}
-  #
-  # Or git/path repositories:
-  #
-  #   {:mydep, git: "https://github.com/elixir-lang/mydep.git", tag: "0.1.0"}
-  #
-  # Type "mix help deps" for more examples and options
   defp deps do
     [
       {:timex, "~> 3.1"},
       {:espec, "~> 0.8.18", only: :test}
+    ]
+  end
+
+  defp package() do
+    [
+      files: ["lib", "mix.exs", "README.md"],
+      maintainers: ["Eloy Gomez"],
+      licenses: ["MIT"],
+      links: %{"GitHub" => "https://github.com/eloy/extruder"}
     ]
   end
 end
