@@ -4,8 +4,6 @@ Extruder let you build and validate structs from any source.
 
 ## Installation
 
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed as:
-
 Add extruder to your list of dependencies in `mix.exs`:
 
     def deps do
@@ -17,7 +15,7 @@ Add extruder to your list of dependencies in `mix.exs`:
 ### Describe your model
     defmodule TestModel do
       use Extruder
-  
+
       defmodel do
         field :foo, :int
         field :bar, :int, default: 1
@@ -29,12 +27,13 @@ Add extruder to your list of dependencies in `mix.exs`:
         field :some_atom, :atom
         field :neested_struct, :struct, module: MyApp.NeestedStruct
         field :neested_struct_list, :structs_list, module: MyApp.NeestedStruct
-        
+        field :date, :datetime
+
         validates_presence_of :foo
       end
     end
 ### Create structs from any source
-    
+
     iex> TestModel.extrude %{"foo" => 1}
     {:ok,
      %TestModel{bar: 1, bool_def: false, def_str: nil, foo: 1, list_def: [],
