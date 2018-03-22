@@ -20,13 +20,14 @@ defmodule Extruder.Mixfile do
   defp deps do
     [
       {:timex, "~> 3.1"},
-      {:espec, "~> 0.8.18", only: :test}
+      {:espec, "~> 0.8.18", only: :test},
+      {:ex_doc, ">= 0.0.0", only: :dev}
     ]
   end
 
   defp package() do
     [
-      files: ["lib", "mix.exs", "README.md"],
+      files: ["lib", "mix.exs", "README.md", "LICENSE"],
       maintainers: ["Eloy Gomez"],
       licenses: ["MIT"],
       links: %{"GitHub" => "https://github.com/eloy/extruder"}
