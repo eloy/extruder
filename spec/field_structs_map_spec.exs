@@ -27,12 +27,12 @@ defmodule FieldStructsMapSpec do
 
   it "should raise errors converting invalid structs" do
     {:error, s, errors} = TestModel.extrude %{foo: "not a map"}
-    expect(errors) |> to(eq([foo: [:is_not_a_map]]))
+    expect(errors) |> to(eq(%{foo: [:is_not_a_map]}))
   end
 
   it "should include neested errors" do
     {:error, s, errors} = TestModel.extrude %{foo: %{"a" => %{}}}
-    expect(errors) |> to(eq([foo: [{"a", [bar: [:can_not_be_nil]]}]]))
+    expect(errors) |> to(eq(%{foo: %{"a" => %{bar: [:can_not_be_nil]}}}))
   end
 
 end

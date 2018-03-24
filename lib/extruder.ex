@@ -28,10 +28,12 @@ defmodule Extruder do
 
       def extrude(params) do
         struct = %__MODULE__{}
-        {struct, errors} = Extruder.Builder.sanitize(@__extruder__, struct, params)
-        case errors do
-          [] -> {:ok, struct}
-          errors -> {:error, struct, errors}
+        {struct, errors} = Extruder.Builder.assign(@__extruder__, struct, params)
+        errors = Extruder.Builder.validate(@__extruder__, struct, params, errors)
+
+        if map_size(errors) == 0 do
+          {:ok, struct} else
+          {:error, struct, errors}
         end
       end
 

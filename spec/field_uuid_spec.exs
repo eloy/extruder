@@ -17,7 +17,7 @@ defmodule FieldUUIDSpec do
 
   it "should raise errors converting invalid values" do
     {:error, s, errors} = TestModel.extrude %{foo: 1}
-    expect(errors) |> to(eq([foo: [:is_not_a_UUID]]))
+    expect(errors) |> to(eq(%{foo: [:is_not_a_UUID]}))
   end
 
 

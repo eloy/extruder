@@ -23,7 +23,7 @@ defmodule FieldDatetimeSpec do
 
   it "should return errors with invalid dates" do
     {:error, model, errors} = DatetimeModel.extrude %{foo: "foo"}
-    expect(errors) |> to(eq([foo: ["Invalid date"]]))
+    expect(errors) |> to(eq(%{foo: ["Invalid date"]}))
   end
 
     it "should return nil if we pass nil" do

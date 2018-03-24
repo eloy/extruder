@@ -3,7 +3,7 @@ defmodule Extruder.Fields do
     quote do
       fields = @__extruder__.fields ++ [{unquote(name), unquote(type), unquote(opt)}]
       @__extruder__ %{@__extruder__ | fields: fields}
-      validates(unquote(name), :cast, unquote(type))
+      # validates(unquote(name), :cast, unquote(type))
     end
   end
 
@@ -12,8 +12,6 @@ defmodule Extruder.Fields do
       d ++ [build_field(f)]
     end
   end
-
-
 
   def build_field({name, :boolean, opt}) do
     value = opt[:default] || false
@@ -30,58 +28,58 @@ defmodule Extruder.Fields do
     {name, value}
   end
 
-  def build_field({name, :int, opt}) do
+  def build_field({name, _type, opt}) do
     value = opt[:default] || nil
     {name, value}
   end
 
-  def build_field({name, :float, opt}) do
-    value = opt[:default] || nil
-    {name, value}
-  end
+  # def build_field({name, :float, opt}) do
+  #   value = opt[:default] || nil
+  #   {name, value}
+  # end
 
-  def build_field({name, :uuid, opt}) do
-    value = opt[:default] || nil
-    {name, value}
-  end
+  # def build_field({name, :uuid, opt}) do
+  #   value = opt[:default] || nil
+  #   {name, value}
+  # end
 
-  def build_field({name, :string, opt}) do
-    value = opt[:default] || nil
-    {name, value}
-  end
+  # def build_field({name, :string, opt}) do
+  #   value = opt[:default] || nil
+  #   {name, value}
+  # end
 
-  def build_field({name, :atom, opt}) do
-    value = opt[:default] || nil
-    {name, value}
-  end
+  # def build_field({name, :atom, opt}) do
+  #   value = opt[:default] || nil
+  #   {name, value}
+  # end
 
-  def build_field({name, :struct, opt}) do
-    value = opt[:default] || nil
-    {name, value}
-  end
+  # def build_field({name, :struct, opt}) do
+  #   value = opt[:default] || nil
+  #   {name, value}
+  # end
 
-  def build_field({name, :structs_list, opt}) do
-    value = opt[:default] || nil
-    {name, value}
-  end
+  # def build_field({name, :structs_list, opt}) do
+  #   value = opt[:default] || nil
+  #   {name, value}
+  # end
 
-  def build_field({name, :structs_map, opt}) do
-    value = opt[:default] || nil
-    {name, value}
-  end
+  # def build_field({name, :structs_map, opt}) do
+  #   value = opt[:default] || nil
+  #   {name, value}
+  # end
 
 
-  def build_field({name, :datetime, opt}) do
-    value = opt[:default] || nil
-    {name, value}
-  end
+  # def build_field({name, :datetime, opt}) do
+  #   value = opt[:default] || nil
+  #   {name, value}
+  # end
 
-  def build_field({name, :custom, opt}) do
-    value = opt[:default] || nil
-    {name, value}
-  end
+  # def build_field({name, :custom, opt}) do
+  #   value = opt[:default] || nil
+  #   {name, value}
+  # end
 
-  def build_field({name, unknown, _opt}) do
-    raise ":#{unknown} is not a valid type for the field #{name}"
-  end
+  # def build_field({name, unknown, _opt}) do
+  #   raise ":#{unknown} is not a valid type for the field #{name}"
+  # end
 end

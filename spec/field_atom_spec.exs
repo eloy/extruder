@@ -16,7 +16,7 @@ defmodule FieldAtomrSpec do
 
   it "should raise errors converting invalid atoms" do
     {:error, s, errors} = TestModel.extrude %{foo: "will_never_exists"}
-    expect(errors) |> to(eq([foo: [:is_not_an_existing_atom]]))
+    expect(errors) |> to(eq(%{foo: [:is_not_an_existing_atom]}))
   end
 
   it "should allow nil" do
