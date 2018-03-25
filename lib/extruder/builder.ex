@@ -3,12 +3,11 @@ defmodule Extruder.Builder do
   def assign(model_def, struct, params) do
     Enum.reduce model_def.fields, {struct, %{}} , fn({name, type, opt}, {struct, errors}) ->
       # if params include a value, set it, leave the default value otherwise
-      raw_value = get_value(params, name)
+      raw_value = get_value(struct, params, name)
 
       case cast(type, raw_value, opt) do
-        :empty -> {struct, errors}
         {:error, field_errors} ->
-        {struct, add_error(errors, name, field_errors)}
+          {struct, add_error(errors, name, field_errors)}
         value ->
           struct = %{struct | name => value}
           {struct, errors}
@@ -33,13 +32,12 @@ defmodule Extruder.Builder do
     end
   end
 
-
-  defp get_value(params, name) do
+  defp get_value(struct, params, name) do
     name_str = Atom.to_string(name)
     cond do
       Map.has_key?(params, name) -> Map.fetch! params, name
       Map.has_key?(params, name_str) -> Map.fetch! params, name_str
-      true -> :empty
+      true -> Map.get struct, name
     end
   end
 
@@ -186,6 +184,7 @@ defmodule Extruder.Builder do
       end
       {structs, neested_errors, index}
     end
+
 
     if map_size(neested_errors) == 0  do
       structs

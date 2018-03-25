@@ -18,6 +18,24 @@ defmodule FieldStructSpec do
     end
   end
 
+  defmodule NeestedStruct2 do
+    use Extruder
+    defmodel do
+      field :bar, :string, default: "FOO"
+    end
+
+  end
+
+  defmodule TestModel2 do
+    use Extruder
+
+    defmodel do
+      field :foo, :struct, module: NeestedStruct2, default: %{}
+    end
+
+  end
+
+
   it "should build struct" do
     {:ok, model} = TestModel.extrude %{foo: %{"bar" => 1}}
     expect(model.foo.bar) |> to(eq(1))
@@ -34,4 +52,8 @@ defmodule FieldStructSpec do
     expect(errors) |> to(eq(%{foo: %{bar: [:can_not_be_nil]}}))
   end
 
+  it "should initialize default structs" do
+    {:ok, model} = TestModel2.extrude %{}
+    expect(model.foo.bar) |> to(eq("FOO"))
+  end
 end
