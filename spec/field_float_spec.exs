@@ -22,7 +22,7 @@ defmodule FieldFloatSpec do
 
   it "should raise errors converting invalid numbers" do
     {:error, s, errors} = TestModel.extrude %{foo: "not a number"}
-    expect(errors) |> to(eq([foo: [:is_not_a_number]]))
+    expect(errors) |> to(eq(%{foo: [:is_not_a_number]}))
   end
 
 

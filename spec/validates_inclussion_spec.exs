@@ -17,6 +17,6 @@ defmodule ValidatesInclussionSpec do
 
   it "should raise errors if the atom is not in the list" do
     {:error, s, errors} = TestModel.extrude %{foo: "ok"}
-    expect(errors) |> to(eq([foo: [:is_not_permitted]]))
+    expect(errors) |> to(eq(%{foo: [:is_not_permitted]}))
   end
 end

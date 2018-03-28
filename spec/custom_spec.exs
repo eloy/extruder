@@ -23,6 +23,6 @@ defmodule FieldCustomSpec do
 
   it "should raise errors converting invalid customs" do
     {:error, s, errors} = TestModel.extrude %{foo: "will_not_work"}
-    expect(errors) |> to(eq([foo: [:is_not_a_number]]))
+    expect(errors) |> to(eq(%{foo: [:is_not_a_number]}))
   end
 end

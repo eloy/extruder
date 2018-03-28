@@ -27,12 +27,12 @@ defmodule FieldStructsListSpec do
 
   it "should raise errors converting invalid structs" do
     {:error, s, errors} = TestModel.extrude %{foo: "not a list"}
-    expect(errors) |> to(eq([foo: [:is_not_a_list]]))
+    expect(errors) |> to(eq(%{foo: [:is_not_a_list]}))
   end
 
   it "should include neested errors" do
     {:error, s, errors} = TestModel.extrude %{foo: [%{}]}
-    expect(errors) |> to(eq([foo: [{0, [bar: [:can_not_be_nil]]}]]))
+    expect(errors) |> to(eq(%{foo: %{0 => %{bar: [:can_not_be_nil]}}}))
   end
 
 end

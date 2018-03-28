@@ -47,12 +47,12 @@ defmodule ExtruderSpec do
 
     it "should check validations" do
       {:error, s, errors} = TestModel.extrude %{}
-      expect(errors) |> to(eq([foo: [:can_not_be_nil]]))
+      expect(errors) |> to(eq(%{foo: [:can_not_be_nil]}))
     end
 
     it "should accept nil as a valid value" do
       {:error, s, errors} = TestModel.extrude nil
-      expect(errors) |> to(eq([foo: [:can_not_be_nil]]))
+      expect(errors) |> to(eq(%{foo: [:can_not_be_nil]}))
     end
 
   end
