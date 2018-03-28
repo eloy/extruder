@@ -27,4 +27,11 @@ defmodule Extruder.Validators do
     end
   end
 
+
+  defp run_validation({custom_validator, validator_opt}, struct, name, _field_opt, errors)  do
+    case apply(struct.__struct__, custom_validator, [name, struct, validator_opt]) do
+      {:error, error} -> errors ++ [error]
+      :ok -> errors
+    end
+  end
 end
