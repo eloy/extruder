@@ -178,11 +178,12 @@ defmodule Extruder.Builder do
       case module.extrude s do
         {:ok, struct} ->
           structs = structs ++ [struct]
+          {structs, neested_errors, index}
         {:error, struct, e} ->
           structs = structs ++ [struct]
           neested_errors = add_error(neested_errors, index, e)
+          {structs, neested_errors, index}
       end
-      {structs, neested_errors, index}
     end
 
 

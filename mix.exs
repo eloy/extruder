@@ -20,7 +20,7 @@ defmodule Extruder.Mixfile do
   defp deps do
     [
       {:timex, "~> 3.1"},
-      {:espec, "~> 0.8.18", only: :test},
+      {:espec, "~> 1.6", only: :test},
       {:ex_doc, ">= 0.0.0", only: :dev}
     ]
   end
